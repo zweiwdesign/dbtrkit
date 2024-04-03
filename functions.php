@@ -157,10 +157,10 @@ if ( ! function_exists( 'dbtrkit_enqueue_scripts' ) ) :
         /* Pinegrow generated Enqueue Styles Begin */
 
     wp_deregister_style( 'dbtrkit-style' );
-    wp_enqueue_style( 'dbtrkit-style', get_template_directory_uri() . '/css/style.css', [], '1.0.54', 'all');
+    wp_enqueue_style( 'dbtrkit-style', get_template_directory_uri() . '/css/style.css', [], '1.1.55', 'all');
 
     wp_deregister_style( 'dbtrkit-style-1' );
-    wp_enqueue_style( 'dbtrkit-style-1', get_bloginfo('stylesheet_url'), [], '1.0.54', 'all');
+    wp_enqueue_style( 'dbtrkit-style-1', get_bloginfo('stylesheet_url'), [], '1.1.55', 'all');
 
     /* Pinegrow generated Enqueue Styles End */
 
