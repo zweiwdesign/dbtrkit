@@ -157,10 +157,10 @@ if ( ! function_exists( 'dbtrkit_enqueue_scripts' ) ) :
         /* Pinegrow generated Enqueue Styles Begin */
 
     wp_deregister_style( 'dbtrkit-style' );
-    wp_enqueue_style( 'dbtrkit-style', get_template_directory_uri() . '/css/style.css', [], '1.0.45', 'all');
+    wp_enqueue_style( 'dbtrkit-style', get_template_directory_uri() . '/css/style.css', [], '1.0.46', 'all');
 
     wp_deregister_style( 'dbtrkit-style-1' );
-    wp_enqueue_style( 'dbtrkit-style-1', get_bloginfo('stylesheet_url'), [], '1.0.45', 'all');
+    wp_enqueue_style( 'dbtrkit-style-1', get_bloginfo('stylesheet_url'), [], '1.0.46', 'all');
 
     /* Pinegrow generated Enqueue Styles End */
 
@@ -223,5 +223,36 @@ function dbtrkit_add_blocks_editor_styles() {
 add_action('admin_init', 'dbtrkit_add_blocks_editor_styles');
 
 /* End of loading editor styles for blocks */
+
+// Automatic theme updates from the GitHub repository
+add_filter('pre_set_site_transient_update_themes', 'automatic_GitHub_updates', 100, 1);
+function automatic_GitHub_updates($data) {
+  // Theme information
+  $theme   = get_stylesheet(); // Folder name of the current theme
+  $current = wp_get_theme()->get('Version'); // Get the version of the current theme
+  // GitHub information
+  $user = 'zweiwdesign'; // The GitHub username hosting the repository
+  $repo = 'dbtrkit'; // Repository name as it appears in the URL
+  // Get the latest release tag from the repository. The User-Agent header must be sent, as per
+  // GitHub's API documentation: https://developer.github.com/v3/#user-agent-required
+  $file = @json_decode(@file_get_contents('https://api.github.com/repos/'.$user.'/'.$repo.'/releases/latest', false,
+      stream_context_create(['http' => ['header' => "User-Agent: ".$user."\r\n"]])
+  ));
+  if($file) {
+	$update = filter_var($file->tag_name, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    // Only return a response if the new version number is higher than the current version
+    if($update > $current) {
+  	  $data->response[$theme] = array(
+	      'theme'       => $theme,
+	      // Strip the version number of any non-alpha characters (excluding the period)
+	      // This way you can still use tags like v1.1 or ver1.1 if desired
+	      'new_version' => $update,
+	      'url'         => 'https://github.com/'.$user.'/'.$repo,
+	      'package'     => $file->assets[0]->browser_download_url,
+      );
+    }
+  }
+  return $data;
+}
 
 ?>

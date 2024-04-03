@@ -68,10 +68,9 @@
                                         onChange: function(val) { setAttributes({at_m: val}) },
                                         options: [
                                             { value: '', label: '-' },
-                                            { value: 'uk-width-1-4@m', label: '1/4' },
-                                            { value: 'uk-width-1-3@m', label: '1/3' },
-                                            { value: 'uk-width-1-2@m', label: '1/2' },
-                                            { value: 'uk-width-2-3@m', label: '2/3' }
+                                            { value: 'uk-width-1-2@m', label: 'uk-width-1-2@m' },
+                                            { value: 'uk-width-1-3@m', label: 'uk-width-1-3@m' },
+                                            { value: 'uk-width-2-3@m', label: 'uk-width-2-3@m' }
                                         ]
                                     }),
                                     el(SelectControl, {
